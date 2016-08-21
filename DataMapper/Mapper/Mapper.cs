@@ -21,9 +21,9 @@ namespace AutomapperTest
 			if (source == null)
 				throw new ArgumentNullException ("source");
 
-			var destination = _typeMap.GetDestinationObject<TOut> ( source.GetType() );
+			var destination = _typeMap.CreateInstance<TOut> ( source.GetType() );
 
-			return PropertyMapper.MapProperties (source, destination);
+			return PropertyMapper.MapProperties (source, destination, _typeMap);
 		}
 		#endregion
 	}

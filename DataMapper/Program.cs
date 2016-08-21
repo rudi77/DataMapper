@@ -10,6 +10,7 @@ namespace AutomapperTest
 
 			var config = new Configurator ();
 			config.Create<Foo, FooEntity> ();
+			config.Create<DateTimeOffset, DateTime> ( dto => dto.DateTime );
 
 			var mapper = config.NewMapper ();
 
