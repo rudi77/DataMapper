@@ -43,6 +43,7 @@
     <Compile Include="Mapper\Mapper.cs" />
     <Compile Include="Mapper\IMapping.cs" />
     <Compile Include="Mapper\PropertyMapper.cs" />
+    <Compile Include="Mapper\HasConversionMethodAttribute.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

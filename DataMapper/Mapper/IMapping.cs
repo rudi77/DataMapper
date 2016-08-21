@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutomapperTest
+namespace DataMapper
 {
 	public interface IMapping
 	{

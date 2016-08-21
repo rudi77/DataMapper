@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Diagnostics;
 
-namespace AutomapperTest
+namespace DataMapper
 {
 	public static class PropertyMapper
 	{
@@ -15,15 +15,14 @@ namespace AutomapperTest
 			if (typeMap == null)
 				throw new ArgumentNullException ("typeMap");
 
-
 			var sourceType = source.GetType ();
 			var properties = sourceType.GetProperties (BindingFlags.Instance | BindingFlags.Public);
 
 			var destType = destination.GetType ();
 
-			foreach (var propertyInfo in properties)
+			foreach (var sourcePropertyInfo in properties)
 			{
-				var name = propertyInfo.Name;
+				var name = sourcePropertyInfo.Name;
 
 				// Continue if the destination type does not have a property with "name"
 				if (!HasProperty (destType, name))
@@ -33,16 +32,26 @@ namespace AutomapperTest
 				var destPropertyInfo = destType.GetProperty (name);
 			
 				// Check if property types are equal
-				if (PropertyTypesAreEqual (propertyInfo, destPropertyInfo))
+				if (PropertyTypesAreEqual (sourcePropertyInfo, destPropertyInfo))
 				{
 					// Get the value of the source type
-					var value = propertyInfo.GetValue (source);
-					destPropertyInfo.SetValue (destination, value);
+					var sourcePropertyValue = sourcePropertyInfo.GetValue (source);
+					destPropertyInfo.SetValue (destination, sourcePropertyValue);
 				}
 				// Property types differ, so check if there has been registered a type conversion method: new_type = f(old_type)
 				else
 				{
+					// Check if property has the HasConversionMethodAttribute
+					var attribute = sourcePropertyInfo.GetCustomAttribute( typeof(HasConversionMethodAttribute) );
 
+					if (attribute != null)
+					{
+						var converter = typeMap.GetTypeConverter (sourcePropertyInfo.PropertyType);
+						var sourcePropertyValue = sourcePropertyInfo.GetValue (source);
+						var destPropertyValue = converter (sourcePropertyValue);
+
+						destPropertyInfo.SetValue (destination, destPropertyValue);
+					}
 				}
 			}
 

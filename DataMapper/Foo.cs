@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutomapperTest
+namespace DataMapper
 {
 	public class Foo
 	{
@@ -8,6 +8,7 @@ namespace AutomapperTest
 
 		public string Name { get; set; }
 
+		[HasConversionMethod(typeof(DateTime))]
 		public DateTimeOffset CreatedOn { get; set; }
 
 		public override string ToString ()

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutomapperTest
+namespace DataMapper
 {
 	public class Configurator : IConfiguration
 	{
@@ -9,17 +9,17 @@ namespace AutomapperTest
 		public Configurator ()
 		{}
 
-		public void Create<TIn, TOut>() where TOut : class, new()
+		public void Create<TIn,TOut>() where TOut : class, new()
 		{
 			_typeMap.AddTypePair<TIn, TOut> ();
 		}
 
-		public void Create<TIn, TOut>( Func<TIn,TOut> creator )
+		public void Create<TIn,TOut>( Func<object,object> converter)
 		{
-			if (creator == null)
-				throw new ArgumentNullException ("creator");
+			if (converter == null)
+				throw new ArgumentNullException ("converter");
 
-			_typeMap.AddTypePair (creator);
+			_typeMap.AddConversionMethodForType<TIn,TOut> (converter);
 		}
 
 		public IMapping NewMapper()

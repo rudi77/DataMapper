@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AutomapperTest
+namespace DataMapper
 {
 	public class TypeMap
 	{
@@ -16,9 +16,12 @@ namespace AutomapperTest
 			_defaultConstructableTypes.Add(typeof(TIn), typeof(TOut) );
 		}
 
-		public void AddTypePair<TIn, TOut>( Func<TIn,TOut> creator )
+		public void AddConversionMethodForType<TIn, TOut>( Func<object,object> converter )
 		{
-			_constructableTypes.Add (typeof(TIn), creator as Func<object,object> );
+			if (converter == null)
+				throw new ArgumentNullException ("converter");
+
+			_constructableTypes.Add (typeof(TIn), converter );
 		}
 
 		public TOut CreateInstance<TOut>( Type sourceType ) where TOut : class, new()
@@ -34,7 +37,7 @@ namespace AutomapperTest
 			return Activator.CreateInstance<TOut> ();
 		}
 
-		public Func<TIn,TOut> GetCreatorMethod<TIn, TOut>()
+		public Func<TIn,TOut> GetTypeConverter<TIn, TOut>()
 		{
 			var sourceType = typeof(TIn);
 
@@ -49,14 +52,12 @@ namespace AutomapperTest
 			return creatorMethod;
 		}
 
-		public Func<object,object> GetCreatorMethod( Type sourceType )
+		public Func<object,object> GetTypeConverter( Type sourceType )
 		{
-			var sourceType = typeof(TIn);
-
 			if (!_constructableTypes.ContainsKey(sourceType))
 				throw new Exception ("Invalid source type");
 
-			var creatorMethod = _constructableTypes [sourceType] as Func<TIn, TOut>;
+			var creatorMethod = _constructableTypes [sourceType];
 
 			if (creatorMethod == null)
 				throw new Exception ("Invalid destination type. Source type is mapped to a different destination type");
