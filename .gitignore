@@ -1,0 +1,4 @@
+*.exe
+*.exe.*
+DataMapper/obj/
+DataMapper/bin/
