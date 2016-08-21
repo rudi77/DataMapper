@@ -42,9 +42,7 @@ namespace DataMapper
 				else
 				{
 					// Check if property has the HasConversionMethodAttribute
-					var attribute = sourcePropertyInfo.GetCustomAttribute( typeof(HasConversionMethodAttribute) );
-
-					if (attribute != null)
+					if (HasConversionMethodAttribute( sourcePropertyInfo ))
 					{
 						var converter = typeMap.GetTypeConverter (sourcePropertyInfo.PropertyType);
 						var sourcePropertyValue = sourcePropertyInfo.GetValue (source);
@@ -72,6 +70,13 @@ namespace DataMapper
 			Debug.Assert (destProp != null);
 
 			return sourceProp.PropertyType == destProp.PropertyType;
+		}
+
+		private static bool HasConversionMethodAttribute( PropertyInfo property )
+		{
+			Debug.Assert (property != null);
+
+			return property.GetCustomAttribute (typeof(HasConversionMethodAttribute)) != null;
 		}
 	}
 }

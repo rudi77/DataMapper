@@ -1,13 +1,12 @@
 ﻿using System;
+using DataMapper;
 
-namespace DataMapper
+namespace Example
 {
 	class MainClass
 	{
 		public static void Main (string[] args)
 		{
-			Console.WriteLine ("Hello World!");
-
 			var config = new Configurator ();
 			config.Create<Foo, FooEntity> ();
 			config.Create<DateTimeOffset, DateTime> ( dto => ((DateTimeOffset)dto).DateTime );

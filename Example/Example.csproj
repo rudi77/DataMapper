@@ -3,16 +3,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D6F9970-2A84-4E4C-A60C-87849B2EB13E}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>DataMapper</RootNamespace>
-    <AssemblyName>Mapper</AssemblyName>
+    <ProjectGuid>{7DEE749B-CC43-4EC3-925C-305C209FD5B4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>Example</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>
@@ -23,17 +25,16 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Mapper\TypeMap.cs" />
-    <Compile Include="Mapper\Configurator.cs" />
-    <Compile Include="Mapper\IConfiguration.cs" />
-    <Compile Include="Mapper\Mapper.cs" />
-    <Compile Include="Mapper\IMapping.cs" />
-    <Compile Include="Mapper\PropertyMapper.cs" />
-    <Compile Include="Mapper\HasConversionMethodAttribute.cs" />
+    <Compile Include="Foo.cs" />
+    <Compile Include="FooEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Mapper\" />
+    <ProjectReference Include="..\DataMapper\Mapper.csproj">
+      <Project>{1D6F9970-2A84-4E4C-A60C-87849B2EB13E}</Project>
+      <Name>Mapper</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

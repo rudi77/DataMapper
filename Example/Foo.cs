@@ -1,6 +1,7 @@
 ﻿using System;
+using DataMapper;
 
-namespace DataMapper
+namespace Example
 {
 	public class Foo
 	{
