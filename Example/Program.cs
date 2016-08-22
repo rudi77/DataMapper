@@ -1,5 +1,6 @@
 ﻿using System;
 using DataMapper;
+using System.Reflection;
 
 namespace Example
 {
@@ -9,6 +10,7 @@ namespace Example
 		{
 			var config = new Configurator ();
 			config.Create<Foo, FooEntity> ();
+			config.Create<FooEntity,Foo> ();
 			config.Create<DateTimeOffset, DateTime> ( dto => ((DateTimeOffset)dto).DateTime );
 
 			var mapper = config.NewMapper ();
@@ -29,6 +31,15 @@ namespace Example
 				Id = Guid.NewGuid (),
 				Name = "FooBar",
 				CreatedOn = new DateTimeOffset (DateTime.Now)
+			};
+		}
+
+		private static FooEntity CreateFooEntity( string name )
+		{
+			return new FooEntity {
+				Id = Guid.NewGuid (),
+				Name = name,
+				CreatedOn = DateTime.Now
 			};
 		}
 	}
